@@ -1,0 +1,20 @@
+<launch>
+    <arg name="save_path" default="PATH_TO_SAVE_ODOM_RESULT_in_txt"/>
+    <param name="ScanRegistration/config_file" value="$(find livox_odometry)/config/horizon_config.yaml"/>
+    <node pkg="livox_odometry" type="ScanRegistration" name="ScanRegistration" output="screen" />
+    <!-- 0-Not Use IMU, 1-Use IMU remove Rotation Distort, 2-Tightly Coupled IMU -->
+    <param name="PoseEstimation/IMU_Mode" type="int" value="2" />
+    <!-- Voxel Filter Size Use to Downsize Map Cloud -->
+    <param name="PoseEstimation/filter_parameter_corner" type="double" value="0.2" />
+    <param name="PoseEstimation/filter_parameter_surf" type="double" value="0.4" />
+    <!-- Save path Parameter of odometry -->
+    <param name="PoseEstimation/save_path" value="$(arg save_path)" />
+    <!-- Extrinsic Parameter between Lidar & IMU -->
+    <rosparam param="PoseEstimation/Extrinsic_Tlb"> [1.0, 0.0, 0.0, -0.05512,
+        0.0, 1.0, 0.0, -0.02226,
+        0.0, 0.0, 1.0,  0.0297,
+        0.0, 0.0, 0.0,  1.0]</rosparam>
+<!--    <node pkg="livox_odometry" type="PoseEstimation" name="PoseEstimation" output="screen" />-->
+
+    <!-- <node launch-prefix="nice" pkg="rviz" type="rviz" name="rviz" args="-d $(find lio_livox)/rviz_cfg/lio.rviz" /> -->
+</launch>
